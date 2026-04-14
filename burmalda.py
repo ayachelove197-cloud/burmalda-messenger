@@ -1,7 +1,4 @@
 # ================= IMPORTS =================
-import eventlet
-eventlet.monkey_patch()
-
 import os
 import sqlite3
 import time
@@ -18,11 +15,17 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_burmalda_777'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(
+    app,
+    cors_allowed_origins="*",
+    async_mode="threading",
+    logger=False,
+    engineio_logger=False
+)
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-
+    
 # ================= NO CACHE =================
 @app.after_request
 def add_header(r):
@@ -214,4 +217,6 @@ function send(){
 # ================= RUN =================
 if __name__ == "__main__":
     init_db()
-    socketio.run(app, host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    socketio.run(app, host="0.0.0.0", port=port)
+
