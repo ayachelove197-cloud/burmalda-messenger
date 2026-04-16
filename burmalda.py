@@ -1,9 +1,5 @@
 # ================= IMPORTS =================
-# САМЫЙ ПЕРВЫЙ КОД В ФАЙЛЕ
-import eventlet
-eventlet.monkey_patch()
 
-# ПОСЛЕ ЭТОГО ВСЁ ОСТАЛЬНОЕ
 import os
 import sqlite3
 import time
@@ -20,7 +16,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_burmalda_777'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
+socketio = SocketIO(
+    app,
+    cors_allowed_origins="*",
+    async_mode="threading"
+)
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -220,4 +220,6 @@ if __name__ == "__main__":
     socketio.run(
         app,
         host="0.0.0.0",
-        port=port)
+        port=port
+        allow_unsafe_werkzeug=True
+    )
