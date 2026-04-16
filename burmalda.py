@@ -1,6 +1,9 @@
 # ================= IMPORTS =================
+# САМЫЙ ПЕРВЫЙ КОД В ФАЙЛЕ
 import eventlet
 eventlet.monkey_patch()
+
+# ПОСЛЕ ЭТОГО ВСЁ ОСТАЛЬНОЕ
 import os
 import sqlite3
 import time
