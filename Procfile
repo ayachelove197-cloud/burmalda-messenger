@@ -1,1 +1,1 @@
-web: python burmalda.py
+web: gunicorn -k eventlet -w 1 burmalda:app
