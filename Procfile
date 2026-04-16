@@ -1,1 +1,1 @@
-web: gunicorn -k eventlet -w 1 burmalda:app
+gunicorn burmalda:app -k gthread --threads 4
