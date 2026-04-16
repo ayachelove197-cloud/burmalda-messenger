@@ -1,5 +1,4 @@
 # ================= IMPORTS =================
-
 import os
 import sqlite3
 import time
@@ -16,11 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_burmalda_777'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-socketio = SocketIO(
-    app,
-    cors_allowed_origins="*",
-    async_mode="threading"
-)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -214,12 +209,4 @@ function send(){
 """
 
 # ================= RUN =================
-if __name__ == "__main__":
-    init_db()
-    port = int(os.environ.get("PORT", 10000))
-    socketio.run(
-        app,
-        host="0.0.0.0",
-        port=port
-        allow_unsafe_werkzeug=True
-    )
+init_db()
