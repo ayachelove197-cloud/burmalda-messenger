@@ -280,6 +280,9 @@ function send(){
 """
 
 # ================= RUN =================
+# Убираем отсюда init_db(), так как мы её вызвали выше в коде, 
+# чтобы она работала и при запуске через Gunicorn.
+
 if __name__ == "__main__":
-    init_db()
-    socketio.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    # Этот код сработает только при запуске на твоем ПК: python burmalda.py
+    socketio.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
