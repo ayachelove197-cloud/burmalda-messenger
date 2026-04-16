@@ -28,10 +28,14 @@ def add_header(r):
     r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     r.headers["Pragma"] = "no-cache"
     r.headers["Expires"] = "0"
-    return r
-
+    return 
 # ================= DB =================
+# Используем абсолютный путь, чтобы Railway всегда находил файл базы
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB = os.path.join(BASE_DIR, "chat.db")
+
 def init_db():
+    print("Инициализация базы данных...")
     conn = sqlite3.connect(DB)
     c = conn.cursor()
 
@@ -54,6 +58,11 @@ def init_db():
 
     conn.commit()
     conn.close()
+    print("База данных готова к работе.")
+
+# ВАЖНО: Вызываем функцию инициализации сразу, 
+# чтобы таблицы создались до того, как придет первый пользователь.
+init_db()
 
 
 def save_message(username, message):
@@ -68,8 +77,7 @@ def load_messages():
     with sqlite3.connect(DB) as conn:
         return conn.execute(
             "SELECT username, message FROM messages ORDER BY id ASC"
-        ).fetchall()
-
+        ).
 # ================= AUTH =================
 @app.route("/")
 def home():
